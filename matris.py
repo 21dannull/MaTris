@@ -455,10 +455,12 @@ class Game(object):
         while True:
             try:
                 timepassed = clock.tick(50)
-                time.sleep(0.5)
+                #time.sleep(0.5)
                 get_move(self.matris)
-                if self.matris.update((timepassed / 1000.) if not self.matris.paused else 0):
-                    self.redraw()
+                #if self.matris.update((timepassed / 1000.) if not self.matris.paused else 0):
+                #   self.redraw()
+                self.matris.update((timepassed / 1000.))
+                self.redraw()
             except GameOver:
                 return
 

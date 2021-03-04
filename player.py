@@ -30,13 +30,12 @@ def get_candidates(matrix):
 
 def get_piece_arrays(tetromino):
     arr = []
-    for i in range(2):
+    for i in range(4):
         current = []
         for j in range(len(tetromino)):
             for k in range(len(tetromino[j])):
                 if tetromino[j][k] == "X":
                     current.append([j, k])
-        print(current)
         for j in range(len(current)):
             y, x = current[j]
             cpy = deepcopy(current)
@@ -67,10 +66,10 @@ def score_board(matrix):
             heights.append(0)
     type_1_holes = []
     type_2_holes = []
-    #type_1_weight = lambda x : x ** 2
-    #type_2_weight = lambda x : x ** 3
-    type_1_weight = lambda x : 1
-    type_2_weight = lambda x : 100
+    #type_1_weight = lambda x : 1
+    #type_2_weight = lambda x : 200
+    type_1_weight = lambda x : 0
+    type_2_weight = lambda x : 50
     for r in range(-(max(heights) - 22), 22):
         for c in range(10):
             if matrix[(r, c)] is None:
@@ -85,9 +84,17 @@ def score_board(matrix):
         sum += type_1_weight(i)
     for i in type_2_holes:
         sum += type_2_weight(i)
-    return sum
+    return sum + height_diff(heights)
 
-
+"""
+def score_board(matrix):
+    max_height = -10000
+    for r in range(22):
+        for c in range(10):
+            if matrix[(r, c)] is not None:
+                max_height = max(max_height, 22 - r)
+    return max_height
+"""
 def get_move(game):
     candidates = get_candidates(game.matrix)
     piece_arrays = get_piece_arrays(game.current_tetromino.shape)
@@ -137,6 +144,20 @@ def can_put(piece, matrix):
         if sq[0] == 21 or matrix[(sq[0] + 1, sq[1])] is not None:
             under = True
     return under
+
+
+def height_diff(heights):
+    """
+    sum = 0
+    for i in range(len(heights)):
+        for j in range(i, len(heights)):
+            sum += (heights[i] - heights[j]) ** 2
+    return sum
+    """
+    sum = 0
+    for i in range(len(heights) - 1):
+        sum += (heights[i] - heights[i + 1]) ** 2
+    return sum
 
 
 """
