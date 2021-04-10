@@ -1,3 +1,5 @@
+This is based on an existing pygame implementation of tetris with the same name. The only changes I made were creating the player.py file and minor changes to the matris file. The readme for the tetris game is below:
+
 MaTris
 ======
 
